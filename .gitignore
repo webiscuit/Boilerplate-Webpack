@@ -1,0 +1,13 @@
+node_modules
+dist
+**/cache/*
+
+.DS_Store
+.DS_Store?
+.Trashes
+Thumbs.db
+ehthumbs.db
+
+package-lock.json
+
+.vscode
