@@ -3,13 +3,15 @@ import postcssPresetEnv from 'postcss-preset-env';
 import path from 'path';
 
 const env = process.env.NODE_ENV;
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const extractCSS = new ExtractTextPlugin('../css/style.css');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const srcpath = './src/';
+const csspath = '../css/style.css';
 
 module.exports = env => {
   const outputpath = (env && env.production) ? './build/' : './dist/';
@@ -17,7 +19,7 @@ module.exports = env => {
 
   return {
     mode: mode,
-    devtool: (env && env.production) ? false : 'inline-source-map',
+    devtool: (env && env.production) ? false : 'source-map',
     entry:  path.resolve(__dirname, srcpath + 'index.js'),
     output: {
       path: path.resolve(__dirname, outputpath + 'js/'),
@@ -26,7 +28,13 @@ module.exports = env => {
     devServer: {
       clientLogLevel  : 'none',
     },
-    stats: { children: false },
+    stats: {
+      children: false,
+      hash: false,
+      warnings: false,
+      performance: false,
+      modules: false,
+    },
     module: {
       rules: [
         {
@@ -38,15 +46,22 @@ module.exports = env => {
           }
         },
         {
-          test: /\.s?css$/,
-          use: extractCSS.extract([
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
             { loader: 'css-loader', options: {
               importLoaders: 1,
               url: false,
-              sourceMap: true
+              sourceMap: (env && env.production) ? false : true,
             } },
             { loader: 'postcss-loader', options: {
               ident: 'postcss',
+              sourceMap:  (env && env.production) ? false : true,
               plugins: () => [
                 require("postcss-discard-duplicates"),
                 require("postcss-import")({ root: srcpath + "css/" }),
@@ -66,22 +81,34 @@ module.exports = env => {
               ]
             } },
             { loader: 'sass-loader', options: {
-              sourceMap: true
+              sourceMap:  (env && env.production) ? false : true,
             } }
-          ])
+          ]
         },
       ]
     },
     resolve: {
       extensions: ['.js', '.jsx']
     },
+    optimization: {
+      minimizer: [
+        new TerserJSPlugin({ extractComments: false }),
+        new OptimizeCssAssetsPlugin({
+          cssProcessor: require('cssnano'),
+          cssProcessorPluginOptions: {
+            preset: ['default', { discardComments: { removeAll: true } }],
+          }
+        }),
+      ],
+    },
     plugins: [
-      extractCSS,
-      new OptimizeCssAssetsPlugin({
-        cssProcessor: require('cssnano'),
-        cssProcessorPluginOptions: {
-          preset: ['default', { discardComments: { removeAll: true } }],
-        }
+      new MiniCssExtractPlugin({
+        filename: csspath
+      }),
+      
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery'
       }),
       new CopyWebpackPlugin([{
         from: srcpath + 'img',
@@ -94,7 +121,10 @@ module.exports = env => {
       new ImageminPlugin({
         disable: !env.production,
         test: /\.(jpe?g|png|gif|svg)$/i,
-        pngquant: { quality: '95-100' }
+        pngquant: { quality: '80' },
+        plugins: [
+          imageminMozjpeg( {quality: '80'} )
+        ]
       })
     ],
     performance: { hints: false }

@@ -1,17 +1,13 @@
 {
-  "name": "sfit-lp",
+  "name": "devenv",
   "description": "",
   "version": "0.1.0",
-  "config": {
-    "srcpath": "./src/",
-    "dev": "./dist/",
-    "build": "./build/"
-  },
   "scripts": {
-    "watch:server": "browser-sync start -s %npm_package_config_dev% --files %npm_package_config_dev% reload",
-    "watch:pug": "pug -w %npm_package_config_srcpath%html/ -b %npm_package_config_srcpath%html/ -P %npm_package_config_srcpath%html/ -o %npm_package_config_dev% -s",
+    "watch:server": "browser-sync start -s ./dist/ --files ./dist/ reload",
+    "watch:pug": "pug -w ./src/html/ -b ./src/html/ -P ./src/html/ -o ./dist/ -s",
     "watch:webpack": "webpack -w --env.development --config webpack.config.babel.js",
-    "build:pug": "pug %npm_package_config_srcpath%html/ -b %npm_package_config_srcpath%html/ -P %npm_package_config_srcpath%html/ -o %npm_package_config_build% -s",
+    "build:clean": "rimraf build",
+    "build:pug": "pug ./src/html/ -b ./src/html/ -P ./src/html/ -o ./build/ -s",
     "build:webpack": "webpack --env.production --config webpack.config.babel.js",
     "start": "run-p watch:*",
     "build": "run-p build:*"
@@ -37,9 +33,11 @@
     "cssnano": "^4.1.7",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
+    "imagemin-mozjpeg": "^8.0.0",
     "imagemin-optipng": "^5.2.1",
     "imagemin-webpack-plugin": "^2.3.0",
     "jquery": "^3.3.1",
+    "mini-css-extract-plugin": "^0.6.0",
     "node-sass": "^4.9.2",
     "npm-run-all": "latest",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
@@ -56,8 +54,10 @@
     "postcss-preset-env": "latest",
     "postcss-short": "latest",
     "pug-cli": "github:pugjs/pug-cli#master",
+    "rimraf": "^2.6.3",
     "sass-loader": "^7.1.0",
     "style-loader": "latest",
+    "terser-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8"

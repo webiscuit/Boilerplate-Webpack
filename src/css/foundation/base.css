@@ -2,7 +2,7 @@ html {
   overflow-x: hidden;
 }
 body {
-  background: url(../img/bg.png) repeat #fff;
+  background: #fff;
   font-family: var(--font-family) !important;
   color: #000827 !important;
   -webkit-font-smoothing: antialiased;

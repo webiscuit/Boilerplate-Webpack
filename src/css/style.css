@@ -36,7 +36,6 @@
  * Object
    ========================================================================== */
 /*Component*/
-@import "./object/component/banner.css";
 @import "./object/component/button.css";
 @import "./object/component/container.css";
 @import "./object/component/section.css";
