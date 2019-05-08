@@ -45,7 +45,7 @@
     "postcss-discard-duplicates": "latest",
     "postcss-import": "latest",
     "postcss-loader": "latest",
-    "postcss-nested": "^4.1.2",
+    "postcss-nested": "latest",
     "postcss-preset-env": "latest",
     "postcss-short": "latest",
     "pug-cli": "github:pugjs/pug-cli#master",
@@ -56,6 +56,5 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2"
-  },
-  "dependencies": {}
+  }
 }
