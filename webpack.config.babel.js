@@ -4,10 +4,10 @@ import path from 'path';
 
 const env = process.env.NODE_ENV;
 const TerserJSPlugin = require('terser-webpack-plugin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const imageminMozjpeg = require('imagemin-mozjpeg');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const srcpath = './src/';
@@ -42,7 +42,7 @@ module.exports = env => {
           exclude: /node_modules/,
           loader: 'babel-loader',
           query:{
-            presets: ['babel-preset-env']
+            presets: ['@babel/preset-env']
           }
         },
         {
@@ -77,7 +77,6 @@ module.exports = env => {
                 require("postcss-short"),
                 require("postcss-calc"),
                 require("postcss-nested"),
-                // require("cssnano")
               ]
             } },
             { loader: 'sass-loader', options: {
@@ -105,7 +104,6 @@ module.exports = env => {
       new MiniCssExtractPlugin({
         filename: csspath
       }),
-      
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery'
