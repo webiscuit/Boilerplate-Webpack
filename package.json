@@ -6,8 +6,8 @@
     "watch:server": "browser-sync start -s ./dist/ --files ./dist/ reload",
     "watch:pug": "pug -w ./src/html/ -b ./src/html/ -P ./src/html/ -o ./dist/ -s",
     "watch:webpack": "webpack -w --env.development --config webpack.config.babel.js",
-    "build:clean": "rimraf build",
-    "build:pug": "pug ./src/html/ -b ./src/html/ -P ./src/html/ -o ./build/ -s",
+    "build:clean": "rimraf public",
+    "build:pug": "pug ./src/html/ -b ./src/html/ -P ./src/html/ -o ./public/ -s",
     "build:webpack": "webpack --env.production --config webpack.config.babel.js",
     "start": "run-p watch:*",
     "build": "run-p build:*"

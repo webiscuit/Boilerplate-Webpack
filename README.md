@@ -18,3 +18,8 @@
 * webpack.config.babel.js　webpack系設定ファイル
 * package.json
 
+### 基本コマンド ###
+* npm install
+* npm start -> 開発環境が起動
+* npm run build -> 公開ファイルが生成（画像圧縮やソースのminify済み）
+
