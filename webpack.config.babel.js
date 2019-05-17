@@ -14,7 +14,7 @@ const srcpath = './src/';
 const csspath = '../css/style.css';
 
 module.exports = env => {
-  const outputpath = (env && env.production) ? './public/' : './dist/';
+  const outputpath = (env && env.production) ? './public/' : './public/';
   const mode = (env && env.production) ? 'production' : 'development';
 
   return {
